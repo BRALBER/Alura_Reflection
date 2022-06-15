@@ -56,25 +56,8 @@ namespace Aula_Reflection.Infraestrutura
             }
             else 
             {
-                string pagina = "";
-                if(path == "/Cambio/MXN")
-                {
-                    var controller = new CambioController();
-                    pagina = controller.MXN(); 
-                }
-                else if(path == "/Cambio/USD")
-                {
-                    var controller = new CambioController();
-                    pagina = controller.USD();
-                }
-                var bufferArquivo = Encoding.UTF8.GetBytes(pagina);
-
-                resposta.ContentType = "text/html; charset=utf-8";
-                resposta.StatusCode = 202;
-                resposta.ContentLength64 = bufferArquivo.Length;
-
-                resposta.OutputStream.Write(bufferArquivo,0, bufferArquivo.Length);
-                resposta.OutputStream.Close();
+                var manipulador = new ManipuladorRequisicaoController();
+                manipulador.Manipular(resposta, path);
             }
             httpListener.Stop();
         }
