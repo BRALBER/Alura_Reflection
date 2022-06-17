@@ -5,11 +5,13 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Aula_Reflection.Infraestrutura.Binding;
 
 namespace Aula_Reflection.Infraestrutura
 {
     internal class ManipuladorRequisicaoController
     {
+        private readonly ActionBinder _actionBinder = new ActionBinder();
         public void Manipular(HttpListenerResponse respota, string path)
         {
             //Cambio/MXN        Cambio/USD
@@ -26,8 +28,8 @@ namespace Aula_Reflection.Infraestrutura
               //  return;
             var controller = contollerWrapper.Unwrap();
 
-            var methodInfo = controller.GetType().GetMethod(actionName);
-            var resultadoAction = (string) methodInfo.Invoke(controller, new object[0]);
+            var ActionInfo = _actionBinder.ExtrairActionBindInfo(controller, path);
+            var resultadoAction = (string) ActionInfo.Invoke(controller);
 
             var buffer = Encoding.UTF8.GetBytes(resultadoAction);
             respota.StatusCode = 200;

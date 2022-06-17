@@ -48,7 +48,7 @@ namespace Aula_Reflection.Infraestrutura
                 httpListener.Close();
                 return;
             }
-            var path = requisicao.Url.AbsolutePath;
+            var path = requisicao.Url.PathAndQuery;
             if (Utilidades.EhArquivo(path))
             {
                 var manipulador = new ManipuladorRequisicaoArquivo();
